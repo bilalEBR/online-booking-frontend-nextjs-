@@ -4,10 +4,27 @@ import { Room } from "./models/types";
 import { roomService } from "./services/roomService";
 import Navbar from "./components/Navbar";
 import RoomFilters from "./components/RoomFilters";
-import Link from "next/link";
 import { Users } from "lucide-react";
+import router from "next/dist/shared/lib/router/router";
+import { useRouter } from "next/navigation";
 
 export default function HomePage() {
+  const router = useRouter(); 
+
+   const handleBookNow = (roomId: number) => {
+     
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    // If no token, send to register
+    alert("Please create an account or login to book a room.");
+    router.push("/register");
+  } else {
+    // If token exists, proceed to payment
+    router.push(`/bookings/new?roomId=${roomId}`);
+  }
+};
+
   const [rooms, setRooms] = useState<Room[]>([]);
   const [filteredRooms, setFilteredRooms] = useState<Room[]>([]);
   const [loading, setLoading] = useState(true);
@@ -34,6 +51,7 @@ export default function HomePage() {
     setFilteredRooms(result);
   };
 
+ 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
@@ -83,11 +101,12 @@ export default function HomePage() {
                       <span>{room.capacity} Guests</span>
                     </div>
                     
-                    <Link href={`/bookings/new?roomId=${room.id}`}>
-                      <button className="bg-blue-900 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-800 hover:scale-105 active:scale-95 transition-all shadow-md shadow-blue-100">
-                        Book Now
-                      </button>
-                    </Link>
+                   <button 
+  onClick={() => handleBookNow(room.id)}
+  className="bg-blue-900 text-white px-6 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-800 transition-all shadow-md shadow-blue-100"
+>
+  Book Now
+</button>
                   </div>
                 </div>
               </div>

@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar"; // Ensure this path is correct
+import { userService } from "../services/userService";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -11,14 +13,40 @@ const loginSchema = z.object({
 });
 
 export default function LoginPage() {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const router = useRouter(); // <--- Added initialization
+  
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: any) => {
-    console.log("Login Attempt:", data);
-    alert("Login simulation successful!");
-  };
+// Inside src/app/login/page.tsx
+
+const onSubmit = async (data: any) => {
+  try {
+    const response = await userService.login(data); 
+    
+    // 1. Save data to storage
+    localStorage.setItem("token", response.token);
+    localStorage.setItem("user", JSON.stringify(response));
+
+    // 2. Role-Based Redirection Logic
+    const userRole = response.role; // This comes from your Spring Boot Enum (MANAGER, RECEPTIONIST, GUEST)
+
+    if (userRole === "MANAGER") {
+      router.push("/admin"); // Redirects to Manager Dashboard
+    } else if (userRole === "RECEPTIONIST") {
+      router.push("/reception"); // Redirects to Reception Dashboard
+    } else {
+      router.push("/"); // Guests go to the public home page
+    }
+
+    // 3. Refresh to update the Navbar state
+    router.refresh(); 
+
+  } catch (err: any) {
+    alert("Login failed: " + err.message);
+  }
+};
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -31,18 +59,31 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">Email Address</label>
-              <input {...register("email")} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" placeholder="john@example.com" />
+              <input 
+                {...register("email")} 
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" 
+                placeholder="john@example.com" 
+              />
               {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message as string}</p>}
             </div>
 
             <div>
               <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
-              <input type="password" {...register("password")} className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" placeholder="••••••••" />
+              <input 
+                type="password" 
+                {...register("password")} 
+                className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-900 outline-none" 
+                placeholder="••••••••" 
+              />
               {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message as string}</p>}
             </div>
 
-            <button type="submit" className="w-full bg-blue-900 text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-100">
-              Sign In
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className="w-full bg-blue-900 text-white py-4 rounded-xl font-bold hover:bg-blue-800 transition-all shadow-lg shadow-blue-100 disabled:bg-gray-400"
+            >
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </button>
           </form>
 
