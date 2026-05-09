@@ -2,7 +2,7 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { Users, Search, Trash2, Edit, Plus, X, CheckCircle, AlertTriangle, Info, Mail, Phone, Lock, User } from "lucide-react";
-import { userService, UserResponse } from "@/services/userService";
+import { userService, UserResponse } from "@/app/services/userService";
 
 export default function GuestManagement() {
   const [users, setUsers] = useState<UserResponse[]>([]);
