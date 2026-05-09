@@ -100,7 +100,7 @@ export default function MyBookingsPage() {
 
                 {/* Middle Side: Price */}
                 <div className="text-left md:text-right">
-                  <p className="text-2xl font-black text-blue-900">${booking.totalPrice}</p>
+                  <p className="text-2xl font-black text-blue-900">{booking.totalPrice} ETB</p>
                   <p className="text-xs text-gray-400 font-bold uppercase tracking-tight">Total Amount Paid</p>
                 </div>
 

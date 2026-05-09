@@ -1,140 +1,4 @@
-// "use client";
-// import { useEffect, useState, useMemo } from "react";
-// import { Users, Search, Trash2, Info, AlertTriangle, CheckCircle } from "lucide-react";
-// import { userService, UserResponse } from "@/app/services/userService";
 
-// export default function GuestManagement() {
-//   const [users, setUsers] = useState<UserResponse[]>([]);
-//   const [loading, setLoading] = useState(true);
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [userToDelete, setUserToDelete] = useState<number | null>(null);
-//   const [notification, setNotification] = useState<{ msg: string; type: 'success' | 'error' } | null>(null);
-
-//   useEffect(() => { loadGuests(); }, []);
-
-//   const loadGuests = async () => {
-//     const token = localStorage.getItem("token") || "";
-//     try {
-//       const data = await userService.getAllUsers(token);
-//       // Filter only GUESTS for this page
-//       setUsers(data.filter(u => u.role === "GUEST"));
-//     } catch (err) {
-//       showNotify("Failed to load guests", "error");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const showNotify = (msg: string, type: 'success' | 'error') => {
-//     setNotification({ msg, type });
-//     setTimeout(() => setNotification(null), 4000);
-//   };
-
-//   const confirmDelete = async () => {
-//     if (!userToDelete) return;
-//     const token = localStorage.getItem("token") || "";
-//     try {
-//       await userService.deleteUser(userToDelete, token);
-//       setUsers(users.filter(u => u.id !== userToDelete));
-//       showNotify("Guest account removed", "success");
-//     } catch (err) {
-//       showNotify("Could not delete user", "error");
-//     } finally {
-//       setUserToDelete(null);
-//     }
-//   };
-
-//   const filteredGuests = useMemo(() => {
-//     return users.filter(u => 
-//       u.fullName.toLowerCase().includes(searchQuery.toLowerCase()) || 
-//       u.email.toLowerCase().includes(searchQuery.toLowerCase())
-//     );
-//   }, [users, searchQuery]);
-
-//   return (
-//     <div className="space-y-6">
-//       {notification && (
-//         <div className={`fixed top-5 right-5 z-[200] px-6 py-4 rounded-2xl shadow-2xl text-white font-bold ${notification.type === 'success' ? 'bg-green-600' : 'bg-red-600'}`}>
-//           {notification.msg}
-//         </div>
-//       )}
-
-//       <div className="flex justify-between items-center">
-//         <div>
-//           <h1 className="text-3xl font-bold text-gray-900">Guest Management</h1>
-//           <p className="text-gray-500">Manage all registered customer accounts.</p>
-//         </div>
-//       </div>
-
-//       <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-//         <div className="p-6 border-b border-gray-50 bg-gray-50/50 flex items-center">
-//           <div className="relative w-full max-w-md">
-//             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-//             <input 
-//               type="text" 
-//               placeholder="Search by name or email..." 
-//               className="w-full pl-12 pr-4 py-3 rounded-2xl border border-gray-200 focus:ring-2 focus:ring-blue-900 outline-none transition-all"
-//               value={searchQuery}
-//               onChange={(e) => setSearchQuery(e.target.value)}
-//             />
-//           </div>
-//         </div>
-
-//         <table className="w-full text-left">
-//           <thead className="bg-gray-50 text-gray-500 text-xs uppercase tracking-wider">
-//             <tr>
-//               <th className="px-6 py-4 font-semibold">Full Name</th>
-//               <th className="px-6 py-4 font-semibold">Email</th>
-//               <th className="px-6 py-4 font-semibold">Phone</th>
-//               <th className="px-6 py-4 font-semibold text-right">Actions</th>
-//             </tr>
-//           </thead>
-//           <tbody className="divide-y divide-gray-50">
-//             {filteredGuests.map((guest) => (
-//               <tr key={guest.id} className="hover:bg-gray-50/50 transition-colors">
-//                 <td className="px-6 py-4 font-bold text-gray-900">{guest.fullName}</td>
-//                 <td className="px-6 py-4 text-gray-600">{guest.email}</td>
-//                 <td className="px-6 py-4 text-gray-600">{guest.phone}</td>
-//                 <td className="px-6 py-4 text-right">
-//                   <button 
-//                     onClick={() => setUserToDelete(guest.id)}
-//                     className="p-3 text-red-600 hover:bg-red-50 rounded-xl transition-colors"
-//                   >
-//                     <Trash2 size={18} />
-//                   </button>
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-
-//         {!loading && filteredGuests.length === 0 && (
-//           <div className="p-20 text-center text-gray-400 italic flex flex-col items-center gap-2">
-//             <Info size={40} />
-//             No guest accounts found.
-//           </div>
-//         )}
-//       </div>
-
-//       {/* Delete Confirmation Modal */}
-//       {userToDelete && (
-//         <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[150] flex items-center justify-center p-4">
-//           <div className="bg-white rounded-3xl w-full max-w-sm p-8 text-center shadow-2xl">
-//             <div className="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
-//               <AlertTriangle size={32} />
-//             </div>
-//             <h2 className="text-2xl font-bold text-gray-900 mb-2">Delete Guest?</h2>
-//             <p className="text-gray-500 mb-8">This will permanently delete this user account. They will no longer be able to log in.</p>
-//             <div className="flex gap-3">
-//               <button onClick={() => setUserToDelete(null)} className="flex-1 py-3 font-bold text-gray-600 bg-gray-100 rounded-xl">Cancel</button>
-//               <button onClick={confirmDelete} className="flex-1 py-3 font-bold text-white bg-red-600 rounded-xl hover:bg-red-700">Delete</button>
-//             </div>
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { Users, Search, Trash2, Edit, Plus, X, CheckCircle, AlertTriangle, Info, Mail, Phone, Lock, User } from "lucide-react";
@@ -168,24 +32,40 @@ export default function GuestManagement() {
     setTimeout(() => setNotification(null), 4000);
   };
 
+  
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     const token = localStorage.getItem("token") || "";
+    
+    // Simple frontend validation
+    if (!formData.fullName || !formData.email || !formData.phone) {
+      showNotify("Please fill in all required fields", "error");
+      return;
+    }
+
     try {
       if (editingGuest) {
+        // UPDATE LOGIC
         await userService.updateUser(editingGuest.id, formData, token);
-        showNotify("Guest profile updated", "success");
+        showNotify("Guest profile updated successfully", "success");
       } else {
-        // Uses your existing register method
+        // CREATE LOGIC
         await userService.register(formData); 
         showNotify("New guest registered successfully", "success");
       }
+      
       setIsModalOpen(false);
-      loadGuests();
+      loadGuests(); // Refresh table
     } catch (err: any) {
-      showNotify("Operation failed: Check if email is unique", "error");
+      // BETTER ERROR HANDLING
+      const errorMsg = err.message || "Operation failed";
+      showNotify(errorMsg, "error");
+      console.error("Save Error:", err);
     }
   };
+
+ 
 
   const openEditModal = (guest: UserResponse) => {
     setEditingGuest(guest);

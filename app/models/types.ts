@@ -18,6 +18,7 @@ export interface Room {
   capacity: number;
   status: RoomStatus;
   description: string;
+   priceUsd: number; 
 }
 
 export interface User {
@@ -35,4 +36,9 @@ export interface Booking {
   checkOutDate: string;
   totalPrice: number;
   status: string;
+
+    screenshotUrl: string;    
+  transactionNum: string; 
+
+   senderFullName: string; 
 }

@@ -127,7 +127,7 @@ export default function BookingHistory() {
                   <td className="px-6 py-4 text-sm text-gray-500">
                     {booking.checkInDate} to {booking.checkOutDate}
                   </td>
-                  <td className="px-6 py-4 font-black text-gray-900">${booking.totalPrice}</td>
+                  <td className="px-6 py-4 font-black text-gray-900">{booking.totalPrice} ETB</td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase ${
                       booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-700' : 

@@ -126,7 +126,7 @@ export default function StaffManagement() {
           {staffList.map((staff) => (
             <div key={staff.id} className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm relative overflow-hidden group hover:shadow-md transition-shadow">
               <div className="absolute top-0 right-0 p-4">
-                <ShieldCheck className="text-green-500 opacity-10 group-hover:scale-110 transition-transform" size={70} />
+                {/* <ShieldCheck className="text-green-500 opacity-10 group-hover:scale-110 transition-transform" size={70} /> */}
               </div>
               
               <div className="flex items-center gap-4 mb-4">

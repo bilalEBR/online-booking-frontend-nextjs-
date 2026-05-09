@@ -1,7 +1,8 @@
 // src/services/roomService.ts
 import { Room } from "../models/types";
 
-const API_URL = "http://localhost:8081/api/rooms";
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/rooms`;
 
 export const roomService = {
   getAllRooms: async (): Promise<Room[]> => {

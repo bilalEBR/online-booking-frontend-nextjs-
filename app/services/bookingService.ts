@@ -1,7 +1,7 @@
 import { Booking } from "@/app/models/types";
 
-const API_URL = "http://localhost:8081/api/bookings";
-
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const API_URL = `${BASE_URL}/api/bookings`;
 export const bookingService = {
   // 1. Get all bookings (Manager only)
   getAllBookings: async (token: string): Promise<Booking[]> => {
@@ -36,5 +36,25 @@ export const bookingService = {
       headers: { "Authorization": `Bearer ${token}` }
     });
     if (!response.ok) throw new Error("Delete failed");
+  },
+
+updateStatus: async (bookingId: number, status: string, receptionistId: number, token: string): Promise<any> => {
+    // Matches: @PatchMapping("/{id}/status") with @RequestParam
+    const response = await fetch(`${API_URL}/${bookingId}/status?status=${status}&receptionistId=${receptionistId}`, {
+      method: "PATCH",
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorMsg = await response.text();
+      throw new Error(errorMsg || "Failed to update status");
+    }
+    return response.json();
   }
+  
 };
+
+
+

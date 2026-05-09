@@ -1,54 +1,9 @@
-// // Define the base URLs for different controllers
-// const AUTH_URL = "http://localhost:8081/api/auth";
-// const USER_URL = "http://localhost:8081/api/users";
-
-// export interface LoginResponse {
-//   id: number; // Ensure id is here
-//   token: string;
-//   fullName: string;
-//   email: string;
-//   role: string;
-// }
-
-// export const userService = {
-//   // 1. Fixed the URL to point to /api/users/register
-//   register: async (userData: any) => {
-//     const response = await fetch(`${USER_URL}/register`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(userData),
-//     });
-
-//     if (!response.ok) {
-//       const errorData = await response.text();
-//       throw new Error(errorData || "Registration failed");
-//     }
-//     return response.json();
-//   },
-
-//   // 2. Login remains at /api/auth/login
-//   login: async (credentials: any): Promise<LoginResponse> => {
-//     const response = await fetch(`${AUTH_URL}/login`, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(credentials),
-//     });
-
-//     if (!response.ok) {
-//       const errorMsg = await response.text();
-//       throw new Error(errorMsg || "Invalid email or password");
-//     }
-
-//     return response.json();
-//   },
-// };
+ 
 
 
-// Inside src/services/userService.ts
-
-const AUTH_URL = "http://localhost:8081/api/auth";
-const USER_URL = "http://localhost:8081/api/users";
-
+const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+const AUTH_URL = `${BASE_URL}/api/auth`;
+const USER_URL = `${BASE_URL}/api/users`;
 export interface UserResponse {
   id: number;
   fullName: string;
@@ -116,16 +71,21 @@ export const userService = {
   },
 
   // --- ADDED: UPDATE STAFF MEMBER ---
-  updateUser: async (id: number, staffData: any, token: string): Promise<UserResponse> => {
-    const response = await fetch(`${USER_URL}/${id}`, {
-      method: "PUT",
-      headers: {
-        "Authorization": `Bearer ${token}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(staffData)
-    });
-    if (!response.ok) throw new Error("Failed to update staff credentials");
-    return response.json();
+// src/services/userService.ts
+updateUser: async (id: number, userData: any, token: string): Promise<UserResponse> => {
+  const response = await fetch(`${USER_URL}/${id}`, {
+    method: "PUT", // Ensure this is PUT
+    headers: {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(userData)
+  });
+
+  if (!response.ok) {
+    const errMsg = await response.text();
+    throw new Error(errMsg || "Failed to update user");
   }
+  return response.json();
+},
 };
