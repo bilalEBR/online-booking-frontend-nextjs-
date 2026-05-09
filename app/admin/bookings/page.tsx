@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { History, Trash2, Search, Filter, AlertTriangle, CheckCircle, Info, Download } from "lucide-react";
-import { bookingService } from "@/services/bookingService";
-import { Booking } from "@/models/types";
+import { bookingService } from "@/app/services/bookingService";
+import { Booking } from "@/app/models/types";
 
 export default function BookingHistory() {
   const [bookings, setBookings] = useState<Booking[]>([]);

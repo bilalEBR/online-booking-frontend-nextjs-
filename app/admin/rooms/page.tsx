@@ -3,8 +3,8 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { Bed, Plus, Edit, Trash2, X, Search, Filter, AlertTriangle, CheckCircle, Info, Hash, DollarSign, Users, Type } from "lucide-react";
-import { roomService } from "@/services/roomService";
-import { Room, RoomStatus } from "@/models/types";
+import { roomService } from "@/app/services/roomService";
+import { Room, RoomStatus } from "@/app/models/types";
 
 export default function RoomManagement() {
   const [rooms, setRooms] = useState<Room[]>([]);

@@ -7,8 +7,8 @@ import {
   Image as ImageIcon, User, Bed, Hash, AlertCircle, Search, Filter, Info, 
   ArrowRight
 } from "lucide-react";
-import { bookingService } from "@/services/bookingService";
-import { Booking } from "@/models/types";
+import { bookingService } from "@/app/services/bookingService";
+import { Booking } from "@/app/models/types";
 import Navbar from "@/app/components/Navbar";
 
 export default function ReceptionBookings() {

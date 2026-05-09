@@ -4,8 +4,8 @@ import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import { CalendarDays, PackageOpen, Info, CheckCircle2, Clock, XCircle } from "lucide-react";
 import Link from "next/link";
-import { Booking } from "@/models/types";
-import { bookingService } from "@/services/bookingService";
+import { Booking } from "@/app/models/types";
+import { bookingService } from "@/app/services/bookingService";
 
 export default function MyBookingsPage() {
   const router = useRouter();
