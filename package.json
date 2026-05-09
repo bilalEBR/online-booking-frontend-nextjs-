@@ -11,7 +11,12 @@
   "dependencies": {
     "next": "16.0.4",
     "react": "19.2.0",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+
+    "react-hook-form": "^7.51.0",
+    "zod": "^3.22.4",
+    "@hookform/resolvers": "^3.3.4",
+    "lucide-react": "latest"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
