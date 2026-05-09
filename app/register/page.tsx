@@ -84,7 +84,7 @@ export default function RegisterPage() {
                 {...register("fullName")} 
               autoComplete="off"
                 className={`w-full pl-12 pr-4 py-4 bg-gray-50 border rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-900 outline-none transition-all ${errors.fullName ? 'border-red-300' : 'border-gray-100'}`} 
-                placeholder="John Doe" 
+                placeholder="demeke getachew" 
               />
             </div>
             {errors.fullName && <p className="text-red-500 text-[10px] mt-1 font-bold italic ml-1">{errors.fullName.message as string}</p>}
@@ -99,7 +99,7 @@ export default function RegisterPage() {
                 {...register("email")} 
                 autoComplete="off"
                 className={`w-full pl-12 pr-4 py-4 bg-gray-50 border rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-900 outline-none transition-all ${errors.email ? 'border-red-300' : 'border-gray-100'}`} 
-                placeholder="john@example.com" 
+                placeholder="deme123@gmail.com" 
               />
             </div>
             {errors.email && <p className="text-red-500 text-[10px] mt-1 font-bold italic ml-1">{errors.email.message as string}</p>}
@@ -113,7 +113,7 @@ export default function RegisterPage() {
               <input 
                 {...register("phone")} 
                 className={`w-full pl-12 pr-4 py-4 bg-gray-50 border rounded-2xl focus:bg-white focus:ring-2 focus:ring-blue-900 outline-none transition-all ${errors.phone ? 'border-red-300' : 'border-gray-100'}`} 
-                placeholder="0123456789" 
+                placeholder="0909030201" 
               />
             </div>
             {errors.phone && <p className="text-red-500 text-[10px] mt-1 font-bold italic ml-1">{errors.phone.message as string}</p>}
