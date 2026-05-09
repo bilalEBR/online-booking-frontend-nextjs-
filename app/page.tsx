@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Room } from "./models/types";
-import { roomService } from "./services/roomService";
+import { Room } from "../models/types";
+import { roomService } from "../services/roomService";
 import Navbar from "./components/Navbar";
 import RoomFilters from "./components/RoomFilters";
 import { ArrowRight, User, Users } from "lucide-react";

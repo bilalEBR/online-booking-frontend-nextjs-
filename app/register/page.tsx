@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { userService } from "../services/userService";
+import { userService } from "../../services/userService";
 import { useState } from "react";
 import { CheckCircle, AlertTriangle, ArrowLeft, User, Mail, Phone, Lock } from "lucide-react";
 

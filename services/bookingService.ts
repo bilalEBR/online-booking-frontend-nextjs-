@@ -1,4 +1,4 @@
-import { Booking } from "@/app/models/types";
+import { Booking } from "@/models/types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 const API_URL = `${BASE_URL}/api/bookings`;

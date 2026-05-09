@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState, useMemo } from "react";
 import { UserCog, Plus, ShieldCheck, X, Trash2, Edit2, CheckCircle, AlertTriangle, Mail, Phone, Lock } from "lucide-react";
-import { userService, UserResponse } from "@/app/services/userService";
+import { userService, UserResponse } from "@/services/userService";
 
 export default function StaffManagement() {
   const [staffList, setStaffList] = useState<UserResponse[]>([]);

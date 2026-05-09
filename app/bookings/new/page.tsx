@@ -5,8 +5,8 @@ import Navbar from "@/app/components/Navbar";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
 import { Calendar, CreditCard, User, Info, CheckCircle, AlertTriangle, Image as ImageIcon, ArrowRight, Hash } from "lucide-react";
-import { roomService } from "@/app/services/roomService";
-import { Room } from "@/app/models/types";
+import { roomService } from "@/services/roomService";
+import { Room } from "@/models/types";
 
 export default function NewBookingPage() {
   const searchParams = useSearchParams();
